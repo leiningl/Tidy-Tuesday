@@ -1,0 +1,53 @@
+---
+title: "7.14.2020 Astronaut Database"
+author: "Lisa Leininger"
+date: "7/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+tuesdata <- tidytuesdayR::tt_load(2020, week = 29)
+
+astronauts <- tuesdata$astronauts
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(knitr)
+
+astronauts2 <- astronauts %>% 
+  clean_names() %>% 
+  filter(!is.na(number)) %>% 
+  mutate(age_at_mission = year_of_selection - year_of_birth)
+```
+```{r}
+library(dplyr)
+glimpse(astronauts2)
+
+table(astronauts2$sex)
+table(astronauts2$military_civilian)
+table(astronauts2$nationality)
+```
+
+```{r}
+library(ggplot2)
+library(RColorBrewer)
+library(wesanderson)
+
+ggplot(astronauts2, aes(x=year_of_mission, y=age_at_mission, color=sex))  + geom_point(size=.01, alpha=.1) +
+  geom_smooth(method=lm, se=FALSE, weight=4, size=1) + theme_gray() +   facet_wrap(~military_civilian) +
+  geom_jitter() + 
+  scale_color_brewer(palette="Pastel1") + 
+  labs(x="Mission Year", y="Astronaut Age", title="Impact of Sex & Military Status on Astronaut Age", subtitle="1960 - 2020") +
+  theme(plot.title = element_text(size=20, hjust = 0.5)) +
+  theme(plot.subtitle = element_text(size=15, hjust = 0.5)) + theme(axis.text.x = element_text(face="bold", size=10), axis.text.y = element_text(face="bold",size=10)) + 
+  theme(axis.title = element_text(size = 15)) + theme(panel.spacing.x=unit(2, "lines")) + 
+  theme(legend.text = element_text(size=12)) + 
+  theme(legend.title = element_text(size=15))
+```
+
