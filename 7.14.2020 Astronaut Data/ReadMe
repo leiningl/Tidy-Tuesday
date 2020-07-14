@@ -1,6 +1,8 @@
 Astronaut Data:
 
-This data set included almost sixty years of astronaut data. I was curious if there was any change in the age of people we send into space over time. I was also curious if sex or military status impacted it. I noticed a few trends in the data. One was that female astronauts tend to be a few years their male counterparts. Another interesting thing I saw was despite the military providing more astronauts, civilian women were actually going to space in large numbers before women in the military. You can also see a concentration of astronauts in the 1990s.
+This data set included almost sixty years of astronaut data. I was curious if there was any change in the age of people we send into space over time. I was also curious if sex or military status impacted it. To try to anser my questions I first added a feature of the age of the astronaut on their mission. I then used RStudio and ggplot2 to create my visualization.
+
+I noticed a few trends in the data. One was that female astronauts tend to be a few years their male counterparts. Another interesting thing I saw was despite the military providing more astronauts, civilian women were actually going to space in large numbers before women in the military. You can also see a concentration of astronauts in the 1990s.
 
 
 
