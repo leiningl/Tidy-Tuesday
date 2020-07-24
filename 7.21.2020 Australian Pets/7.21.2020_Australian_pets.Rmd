@@ -1,0 +1,138 @@
+---
+title: "7.21.2020_Australian_Pets"
+author: "Lisa Leininger"
+date: "7/20/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#load data
+
+library(tidytuesdayR)
+
+tuesdata <- tidytuesdayR::tt_load('2020-07-21')
+animal_outcomes <- tuesdata$animal_outcomes
+```
+
+```{r}
+head(animal_outcomes)
+
+summary(animal_outcomes)
+
+table(animal_outcomes$animal_type)
+table(animal_outcomes$outcome)
+```
+
+```{r}
+print(animal_outcomes[1:50,])
+```
+
+
+```{r}
+library(ggplot2)
+library(RColorBrewer)
+library(dplyr)
+```
+
+
+```{r}
+#Dog Plot
+
+
+dogs <- animal_outcomes %>% filter(animal_type=="Dogs")
+
+
+a <-ggplot(dogs, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Dogs") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+a
+```
+
+
+```{r}
+#Cat Plot
+
+
+cats <- animal_outcomes %>% filter(animal_type=="Cats")
+
+
+b <-ggplot(cats, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Cats") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+b
+```
+
+
+```{r}
+#Horse Plot
+
+
+horses <- animal_outcomes %>% filter(animal_type=="Horses")
+
+
+c <-ggplot(horses, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Horses") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+c
+```
+
+```{r}
+#Livestock Plot
+
+
+livestock <- animal_outcomes %>% filter(animal_type=="Livestock")
+
+head(livestock)
+
+d <-ggplot(livestock, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Livestock") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+d
+```
+
+
+```{r}
+#Other Animals Plot
+
+
+other <- animal_outcomes %>% filter(animal_type=="Other Animals")
+
+
+e <-ggplot(other, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Other Animals") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+e
+```
+
+
+```{r}
+#Wildlife Plot
+
+
+wildlife <- animal_outcomes %>% filter(animal_type=="Wildlife")
+
+
+f <-ggplot(wildlife, aes(x=year, y=Total, color=outcome)) +
+  geom_point() + 
+  geom_smooth(method='loess', se=FALSE, size=0.5) + scale_color_brewer(palette = "Dark2") + labs(title="Wildlife") + theme(axis.title = element_text(size=14, hjust=0.5)) + theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+f
+```
+
+```{r}
+library(ggpubr)
+
+figure <- ggarrange(a, b, f, d, e, c, common.legend = TRUE, legend="right")
+
+annotate_figure(figure, top=text_grob("Australian Pets", face="bold", size=20), bottom = text_grob("This data comes from the RSPCA, Townsville Animal Complaints, and Brisbane Open Data - Animal Complaints.", size=10))
+```
+
