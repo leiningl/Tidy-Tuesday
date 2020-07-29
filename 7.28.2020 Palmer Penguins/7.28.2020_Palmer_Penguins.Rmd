@@ -1,0 +1,65 @@
+---
+title: "7.28.2020_Palmer_Penguins"
+author: "Lisa Leininger"
+date: "7/27/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidytuesdayR)
+
+tuesdata <- tidytuesdayR::tt_load('2020-07-28')
+penguins <- tuesdata$penguins
+```
+
+```{r}
+na.omit(penguins)
+
+head(penguins)
+
+summary(penguins)
+
+table(penguins$island,penguins$species)
+```
+
+```{r}
+library(ggplot2)
+library(ggthemes)
+```
+
+```{r}
+library(GGally)
+library(dplyr)
+
+penguins_num <- penguins %>%
+  select(bill_length_mm,bill_depth_mm,flipper_length_mm, body_mass_g)
+
+
+ggpairs(penguins_num)
+
+
+ggcorr(penguins_num, nbreaks=8, palette='PuBu', label=TRUE, label_size=5, label_color='white')
+```
+
+```{r}
+penguins <- penguins %>%
+  mutate(body_mass_kg = body_mass_g / 1000) %>%
+  filter(sex != 'NA')
+
+ggplot(penguins, aes(body_mass_kg)) + 
+  geom_density(aes(fill=sex), alpha=0.4) +
+  facet_wrap(~species) +
+  labs(x="Body Mass (Kg)", y="Density") + 
+  labs(title="Palmer Penguins Data", subtitle = "\nWeight in kg by Species & Gender\n") + 
+  theme(plot.title = element_text(size=30, hjust=0.5), plot.subtitle = element_text(size=24, hjust=0.5)) +
+  theme_economist() +
+  scale_fill_colorblind() +
+  labs(fill="Sex", size=20) +
+  theme(legend.position = 'bottom')
+
+```
+
